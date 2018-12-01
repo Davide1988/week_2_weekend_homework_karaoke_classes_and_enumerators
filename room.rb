@@ -9,7 +9,7 @@ class Room
     @songs = []
     @max_capacity = max_capacity
     @entry_fee = entry_fee
-    @bar_tab = @bar_tab
+    @bar_tab = bar_tab
   end
 
   def check_in(guest)
@@ -35,14 +35,17 @@ class Room
     @songs << song
   end
 
-  def check_in_group(guests)
+  def check_in_group_and_charge(guests)
+    people_allowed_in = []
+    fees = 0
     if @max_capacity >= guests.length
-       @guests << guests
-       @guests = @guests.flatten
-     end
+        people_allowed_in = guests.find_all {|guest| guest.can_customer_afford_fee(@entry_fee)}
+        fees = people_allowed_in.length * @entry_fee
+        @bar_tab += fees
+        @guests << people_allowed_in
+        @guests = @guests.flatten
+    end
   end
-
-
 
 
 

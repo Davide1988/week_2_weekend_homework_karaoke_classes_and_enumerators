@@ -9,7 +9,7 @@ class GuestTest < MiniTest::Test
   def setup
 
 
-    @guest_1 = Guest.new("Wilston", 3, "Iris")
+    @guest_1 = Guest.new("Winston", 3, "Iris")
     @guest_2 = Guest.new("Benito", 5, "Foxy Lady")
     @guest_3 = Guest.new("Mike", 8, "Hurt")
     @guest_4 = Guest.new("Dave", 10, "Too much love will kill you")
@@ -23,13 +23,13 @@ class GuestTest < MiniTest::Test
     @playlist = [@song_1, @song_2, @song_3, @song_4]
 
     @room_1 = Room.new("Lucky Voice", 4, 5)
-    @room_2 = Room.new("Lucky Voice", 3, 5)
+    @room_2 = Room.new("Lucky Voice", 3, 9)
 
 
   end
 
   def test_get_name
-    assert_equal("Wilston", @guest_1.guest_name)
+    assert_equal("Winston", @guest_1.guest_name)
   end
 
   def test_get_wallet_value
@@ -41,10 +41,10 @@ class GuestTest < MiniTest::Test
   end
 
   def test_can_customer_afford_fee__no
-    assert_equal(false, @guest_1.can_customer_afford_fee(@room_1.entry_fee))
+    assert_equal(false, @guest_3.can_customer_afford_fee(@room_2.entry_fee))
   end
 
-  def test_cheerign
+  def test_cheerig
     @room_1.add_playlist_to_room(@playlist)
     assert_equal("WHOOOO MY SONG!!", @guest_4.cheering(@room_1.songs))
   end
