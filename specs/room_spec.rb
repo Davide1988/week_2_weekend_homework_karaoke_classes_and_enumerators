@@ -3,6 +3,7 @@ require('minitest/rg')
 require_relative("../room")
 require_relative('../guest')
 require_relative('../song')
+require_relative('../drink')
 
 class RoomTest < MiniTest::Test
 
@@ -29,6 +30,14 @@ class RoomTest < MiniTest::Test
     @room_1 = Room.new("Lucky Voice", 4, 5)
     @room_2 = Room.new("Lucky Voice", 3, 6)
     @room_3 = Room.new("The Voice", 10, 7)
+
+    @drink_1 = Drink.new("Corona", 5)
+    @drink_2 = Drink.new("Malbec", 7)
+    @drink_3 = Drink.new("Cubalibre", 8)
+    @drink_4 = Drink.new("G&T", 8)
+    @drink_5 = Drink.new("Tennets", 4)
+
+    @drinks = [@drink_1, @drink_2, @drink_3, @drink_4, @drink_5]
 
   end
 
@@ -130,15 +139,25 @@ class RoomTest < MiniTest::Test
     assert_equal(0, @room_1.bar_tab)
   end
 
-  #
-  # def test_charge_for_entry
-  #   @room_1.charge_for_entry(@guests)
-  #   assert_equal(3, @guest_1.wallet)
-  #   assert_equal(0, @guest_2.wallet)
-  #   assert_equal(3, @guest_3.wallet)
-  #   assert_equal(5, @guest_4.wallet)
-  #   assert_equal(15, @room_1.bar_tab)
-  #   assert_equal(3, @room_1.get_number_of_guest)
-  # end
+  def test_add_drinks_to_room_fridge
+    @room_1.add_drinks_to_room_fridge(@drinks)
+    assert_equal(5, @room_1.fridge.count())
+  end
+
+
+  def test_customer_buy_drink_in_room
+    @room_1.add_drinks_to_room_fridge(@drinks)
+    @room_1.check_in_group_and_charge(@guests)
+    @room_1.customer_buy_drink_in_room(@guest_4, @drink_1)
+    assert_equal(3, @guest_1.wallet)
+    assert_equal(0, @guest_2.wallet)
+    assert_equal(3, @guest_3.wallet)
+    assert_equal(0, @guest_4.wallet)
+    assert_equal(20, @room_1.bar_tab)
+  end
+
+
+
+
 
 end

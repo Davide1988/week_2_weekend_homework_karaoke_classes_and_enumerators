@@ -24,6 +24,15 @@ class Guest
     end
   end
 
+  def customer_buy_drink(drink)
+    if @wallet >= drink.price
+         @wallet -= drink.price
+     else
+       return @wallet
+     end
+   end
+
+
 
 
 end

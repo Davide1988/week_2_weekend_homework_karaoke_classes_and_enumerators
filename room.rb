@@ -1,7 +1,7 @@
 class Room
 
   attr_reader :name, :max_capacity, :entry_fee
-  attr_accessor :guests, :songs, :bar_tab
+  attr_accessor :guests, :songs, :bar_tab, :fridge
 
   def initialize(name , max_capacity, entry_fee, bar_tab = 0)
     @name = name
@@ -10,6 +10,7 @@ class Room
     @max_capacity = max_capacity
     @entry_fee = entry_fee
     @bar_tab = bar_tab
+    @fridge = []
   end
 
   def check_in(guest)
@@ -45,6 +46,20 @@ class Room
         @guests << people_allowed_in
         @guests = @guests.flatten
     end
+  end
+
+  def add_drinks_to_room_fridge(drinks)
+    @fridge << drinks
+    @fridge = @fridge.flatten
+  end
+
+  def customer_buy_drink_in_room(guest,drink)
+     if guest.wallet >= drink.price
+        guest.wallet -= drink.price
+        @bar_tab += drink.price
+      else
+        return guest.wallet
+      end
   end
 
 
